@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Main {
 	public static void main(String[] args) {
-		SecureShamir shamir = new SecureShamir(new int[] {432, 256, 375, 192}, 3, 5);
+		SecureShamir shamir = new SecureShamir(new BigInteger[] { new BigInteger("4354563465464562"), new BigInteger("4354563465464562"), new BigInteger("867945634547654746756"), new BigInteger("67645635546")}, 3, 5);
 		ArrayList<BigInteger[]> shares = shamir.buildShares();
 		
 		for(BigInteger[] valueShares : shares) {

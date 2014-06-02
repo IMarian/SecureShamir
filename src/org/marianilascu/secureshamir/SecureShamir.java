@@ -15,7 +15,7 @@ public class SecureShamir {
 	/**
 	 * The secret values that will be shared
 	 */
-	private int[] values;
+	private BigInteger[] values;
 	
 	/** 
 	 * Minimum number of agents able to reconstruct the secret
@@ -51,14 +51,14 @@ public class SecureShamir {
 	 * Subsets of the [0...largePrime] set that will be associated to
 	 * each value
 	 */
-	private Hashtable<Integer, BigInteger[]> domains;
+	private Hashtable<BigInteger, BigInteger[]> domains;
 	/**
 	 * 
 	 * @param value
 	 * @param k
 	 * @param n
 	 */
-	public SecureShamir(int[] values, int k, int n) {
+	public SecureShamir(BigInteger[] values, int k, int n) {
 		Arrays.sort(values);
 		this.values = values;
 		this.k = k;
@@ -66,7 +66,7 @@ public class SecureShamir {
 		this.largePrime = this.generatePrime(SecureShamir.BIT_LENGTH);
 		this.x = new ArrayList<BigInteger[]>(values.length);
 		this.shares = new ArrayList<BigInteger[]>(values.length);
-		this.domains = new Hashtable<Integer, BigInteger[]>(values.length);
+		this.domains = new Hashtable<BigInteger, BigInteger[]>(values.length);
 		
 		System.out.println("Field: " + this.largePrime);
 	}
@@ -110,7 +110,7 @@ public class SecureShamir {
 	 * Build n shares that will be distributed among n servers
 	 * @return The shares that will be distributed to each of n servers
 	 */
-	private BigInteger[] buildValueShares(int value) {
+	private BigInteger[] buildValueShares(BigInteger value) {
 		BigInteger[] secret = new BigInteger[n];
 		this.quotients = new BigInteger[this.k-1];
 		BigInteger[] shareValues = new BigInteger[n];
@@ -130,7 +130,7 @@ public class SecureShamir {
 		 */
 		for(int i = 0; i < this.n; i++) {
 			secret[i] = this.generateFieldElement(this.domains.get(value)[0], this.domains.get(value)[1]);
-			shareValues[i] = BigInteger.valueOf(value).add(this.valueInX(quotients, secret[i]));
+			shareValues[i] = value.add(this.valueInX(quotients, secret[i]));
 		}
 		
 		this.x.add(secret);
